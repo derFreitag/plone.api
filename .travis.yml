@@ -8,6 +8,7 @@ cache:
 env:
 - PLONE_VERSION=4.3
 - PLONE_VERSION=5.0
+- PLONE_VERSION=master
 global:
   - secure: "nTXMNU2aYbCtvKD74PndF8Xm2h6IvsxPjr6vj45AxjXmaB7Wf5oGi/4b6ObV\nexBtUQkFnc+M0ThGyUznOCPi3YxcbTzsyhQYhHUtmtw/6QRyYgo4E0GLDItU\n37Ff6wpxl3NMMJTvpi6SOVUvIJUl3+cs+4bkMkS48RSFGg2rGmo="  # Coveralls.io token
 matrix:
@@ -15,11 +16,14 @@ matrix:
     - python: 2.6
       env: PLONE_VERSION=4.2
   fast_finish: true
+  allow_failures:
+    - env: PLONE_VERSION=master
 
 install:
   - mkdir -p buildout-cache/eggs
   - mkdir -p buildout-cache/downloads
   - sed -ie "s#-4.3.x#-$PLONE_VERSION.x#" buildout.cfg
+  - sed -ie "s#test-master#test-5.0#" buildout.cfg
   - make "bin/python"
   - bin/python bootstrap.py
   - bin/buildout annotate
