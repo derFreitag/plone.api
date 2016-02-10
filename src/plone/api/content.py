@@ -392,6 +392,8 @@ def _wf_transitions_for(workflow, from_state, to_state):
     # work backwards from our end state
     def find_path(maps, path, current_state, start_state):
         paths = []
+        if current_state not in maps:
+            return None
         for new_transition, from_states in maps[current_state]:
             next_path = _copy(path)
             if new_transition in path:
